@@ -24,7 +24,7 @@ versions=($(ls -d [0-9]*))
 latest_version="${versions[${#versions[@]}-1]}"
 
 REVISION="$(git rev-parse --short HEAD)"
-IMAGE_NAME="docker.io/janusgraph/janusgraph"
+IMAGE_NAME="docker.io/00security/janusgraph"
 
 echo "REVISION: ${REVISION}"
 echo "IMAGE_NAME: ${IMAGE_NAME}"
