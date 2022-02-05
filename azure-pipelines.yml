@@ -1,4 +1,7 @@
 trigger:
+  branches:
+    exclude:
+    - '*'
   tags:
     include:
     - 0.6*
@@ -15,6 +18,7 @@ steps:
   displayName: Build
   inputs:
     script: |
+      set -ex
       VERSION=$(git describe --exact-match --tags $(Build.SourceVersion))
       docker run --privileged --rm tonistiigi/binfmt --install arm64
       docker run --privileged --rm tonistiigi/binfmt
