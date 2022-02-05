@@ -1,7 +1,7 @@
 trigger:
   tags:
     include:
-    - v0.6*
+    - 0.6*
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -15,11 +15,12 @@ steps:
   displayName: Build
   inputs:
     script: |
+      VERSION=$(git describe --exact-match --tags $(Build.SourceVersion))
       docker run --privileged --rm tonistiigi/binfmt --install arm64
       docker run --privileged --rm tonistiigi/binfmt
       docker buildx create --use
       docker buildx build --platform linux/amd64,linux/arm64 \
-        -t 00security/janusgraph:$(build.buildNumber) \
+        -t 00security/janusgraph:${VERSION} \
         -t 00security/janusgraph:latest \
         --push \
         0.6
