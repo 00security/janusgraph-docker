@@ -1,0 +1,25 @@
+trigger:
+  tags:
+    include:
+    - v0.6*
+
+pool:
+  vmImage: 'ubuntu-latest'
+steps:
+- task: Docker@2
+  displayName: Login
+  inputs:
+    containerRegistry: 'docker-hub-zer0b0t'
+    command: 'login'
+- task: CmdLine@2
+  displayName: Build
+  inputs:
+    script: |
+      docker run --privileged --rm tonistiigi/binfmt --install arm64
+      docker run --privileged --rm tonistiigi/binfmt
+      docker buildx create --use
+      docker buildx build --platform linux/amd64,linux/arm64 \
+        -t 00security/janusgraph:$(build.buildNumber) \
+        -t 00security/janusgraph:latest \
+        --push \
+        0.6
