@@ -26,7 +26,7 @@ ENV JANUS_VERSION=${JANUS_VERSION} \
 
 WORKDIR /opt
 
-RUN apt update -y && apt install -y gpg unzip curl && \
+RUN apt update -y && apt install -y gpg unzip curl libjansi-java && \
     curl -fSL https://github.com/JanusGraph/janusgraph/releases/download/v${JANUS_VERSION}/janusgraph-${JANUS_VERSION}.zip -o janusgraph.zip && \
     curl -fSL https://github.com/JanusGraph/janusgraph/releases/download/v${JANUS_VERSION}/janusgraph-${JANUS_VERSION}.zip.asc -o janusgraph.zip.asc && \
     curl -fSL https://github.com/JanusGraph/janusgraph/releases/download/v${JANUS_VERSION}/KEYS -o KEYS && \
@@ -35,6 +35,7 @@ RUN apt update -y && apt install -y gpg unzip curl && \
     gpg --batch --verify janusgraph.zip.asc janusgraph.zip && \
     unzip janusgraph.zip && \
     mv janusgraph-${JANUS_VERSION} /opt/janusgraph && \
+    curl -o ${JANUS_HOME}/lib/jansi-1.18.jar https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/1.18/jansi-1.18.jar && \
     rm -rf ${JANUS_HOME}/elasticsearch && \
     rm -rf ${JANUS_HOME}/javadocs && \
     rm -rf ${JANUS_HOME}/log && \
